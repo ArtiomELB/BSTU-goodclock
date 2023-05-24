@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="initial-scale=1, width=device-width" />
+  <link rel="stylesheet" href="global.css" />
+  <link rel="stylesheet" href="index.css" />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;900&display=swap" />
+</head>
+
+<body>
+  <div class="footer-parent" id="page2">
+    <div class="footer" id="footer2">
+      <div class="footer-child"></div>
+      <a href="index.html">
+        <div class="goodclock">GoodClock</div>
+      </a>
+      <div class="links">
+        <a href="index.html#g">
+          <div class="div">Галерея</div>
+        </a>
+        <a href="#">
+          <div class="div1">Ремонт</div>
+        </a>
+        <a href="index.html#c">
+          <div class="div2">Контакты</div>
+        </a>
+        <a href="index.html#a">
+          <div class="div3">О нас</div>
+        </a>
+      </div>
+      <div class="links1">
+        <div class="div">goodclock@tut.by</div>
+        <div class="div1">г.Брест, пл. Ленина 3</div>
+        <div class="div2">+375-29-333-33-65</div>
+        <div class="div3">+375-29-444-32-13</div>
+      </div>
+      <img class="footer-item" alt="" src="./assets/svg/frame-24.svg" />
+    </div>
+    <div class="header">
+      <div class="header-child"></div>
+      <a href="index.html">
+        <div class="goodclock1">GoodClock</div>
+      </a>
+      <nav class="menu">
+
+        <input id="menu-toggle" type="checkbox">
+        <label class="menu-btn" for="menu-toggle">
+          <span></span>
+        </label>
+
+        <ul class="menu__box">
+          <li><a class="menu__item" href="index.html#g">Галерея</a></li>
+          <li><a class="menu__item" href="#">Ремонт</a></li>
+          <li><a class="menu__item" href="index.html#c">Контакты</a></li>
+          <li><a class="menu__item" href="index.html#a">О нас</a></li>
+        </ul>
+      </nav>
+      <div class="links2">
+        <a href="index.html#g">
+          <div class="div32">Галерея</div>
+        </a>
+        <a href="#">
+          <div class="div33">Ремонт</div>
+        </a>
+        <a href="index.html#c">
+          <div class="div34">Контакты</div>
+        </a>
+        <a href="index.html#a">
+          <div class="div35">О нас</div>
+      </div></a>
+    </div>
+  <div class="special">
+    <h1 class="calc">Калькулятор</h1>
+    <form>
+      <label for="products">Услуга</label>
+      <select id="products">
+        <option value="">--Выберите услугу--</option>
+        <option value="Чистка" data-price="100">Чистка</option>
+        <option value="Ремонт" data-price="200">Ремонт</option>
+        <option value="Обслуживание" data-price="300">Обслуживание</option>
+      </select>
+      <label for="quantity">Количество:</label>
+      <input type="number" id="quantity" min="1" max="10">
+      <button type="button" id="add-to-cart">Добавить в корзину</button>
+    </form>
+    <ul id="cart"></ul>
+    <p id="total"></p>
+    <button id="orderbtn" onclick="order()">Оформить заказ</button>
+  </div>
+</div>
+</body>
+
+<script>
+  const productsSelect = document.getElementById('products');
+  const quantityInput = document.getElementById('quantity');
+  const addToCartButton = document.getElementById('add-to-cart');
+  const cartList = document.getElementById('cart');
+  const total = document.getElementById('total');
+
+  // Объявляем объект корзины:
+  const cart = {
+    items: [],
+
+    // Метод для добавления товара в корзину:
+    addItem(item) {
+      this.items.push(item);
+    },
+
+    // Метод для подсчета общей стоимости товаров в корзине:
+    getTotal() {
+      return this.items.reduce((total, item) => {
+        return total + (item.price * item.quantity);
+      }, 0);
+    },
+
+    // Метод для отображения корзины:
+    render() {
+      cartList.innerHTML = '';
+      this.items.forEach(item => {
+        const li = document.createElement('li');
+        li.textContent = `${item.quantity} x ${item.product} - ${item.price * item.quantity} руб.`;
+        cartList.appendChild(li);
+      });
+
+      total.textContent = `Общая стоимость: ${this.getTotal()} руб.`;
+    }
+  };
+
+  // Обработчик события клика на кнопку "Добавить в корзину":
+  addToCartButton.addEventListener('click', () => {
+    const product = productsSelect.value;
+    const quantity = quantityInput.value;
+
+    if (product && quantity) {
+      const price = parseFloat(productsSelect.options[productsSelect.selectedIndex].getAttribute('data-price'));
+
+      // Создаем объект товара и добавляем его в корзину:
+      const item = { product, quantity, price };
+      cart.addItem(item);
+
+      // Отображаем корзину:
+      cart.render();
+
+      // Очищаем поля выбора товара и ввода количества:
+      productsSelect.value = '';
+      quantityInput.value = '';
+    }
+  });
+
+
+  function order() {
+    alert("Ваш заказ успешно оформлен!");
+    location.reload();
+  }
+</script>
+
+</html>
